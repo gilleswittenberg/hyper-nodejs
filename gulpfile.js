@@ -4,11 +4,14 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var nodemon = require('gulp-nodemon');
+var mocha = require('gulp-mocha-co');
+var exit = require('gulp-exit');
 
 var files = [
   'gulpfile.js',
   'app.js',
   'routes/*.js',
+  'test/*.js',
   'lib/*.js'
 ];
 
@@ -26,5 +29,18 @@ gulp.task('nodemon', function() {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(files, ['lint']);
+  gulp.watch(files, ['lint', 'test']);
+});
+
+gulp.task('test', function () {
+  process.env.PORT = 7677;
+  process.env.NODE_ENV = 'test';
+  return gulp.src('test/*')
+    .pipe(mocha({reporter: 'nyan'}));
+});
+
+// node --harmony `which gulp` test-once
+gulp.task('test-once', function() {
+  process.env.NODE_ENV = 'test';
+  gulp.tasks.test.fn().pipe(exit());
 });
