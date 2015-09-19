@@ -16,6 +16,7 @@ app.use(require('koa-body')());
 // routes
 app.use(route.get('/nodes', require('./routes/nodes_index.js')));
 app.use(route.post('/nodes', require('./routes/nodes_post.js')));
+app.use(route.delete('/nodes', require('./routes/nodes_delete.js')));
 
 // listen
 http.createServer(app.callback()).listen(port);
