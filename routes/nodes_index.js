@@ -1,8 +1,7 @@
 
 // requires
-var request = require('koa-request');
-var databaseHost = require('../lib/database.js').host;
 var username = require('../lib/database.js').username;
+var runQuery = require('../lib/run_query.js');
 
 module.exports = function *() {
 
@@ -48,32 +47,13 @@ function *iterate (data) {
 
 function *query (name, id) {
 
-  var url = databaseHost + 'db/data/transaction/commit';
   var queryStr;
   if (name) {
     queryStr = "MATCH (user:User {name: '" + name + "'})-->(children) RETURN user, ID(user), children, ID(children)";
   } else {
     queryStr = "MATCH (n)-->(children) WHERE ID(n) = " + id + " RETURN n, ID(n), children, ID(children)";
   }
-  var json = {
-    statements: [
-      {
-        statement: queryStr,
-        // @TODO: Remove limit
-        parameters: {limit: 9999}
-      }
-    ]
-  };
-
-  var options = {
-      url: url,
-      method: 'POST',
-      json: json
-  };
-
-  try {
-    return yield request(options);
-  } catch (err) {
-
-  }
+  var parameters = {limit: 9999};
+  var response = runQuery(queryStr, parameters);
+  return yield response;
 }
