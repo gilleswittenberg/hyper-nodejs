@@ -1,6 +1,8 @@
 
 // requires
 var koa = require('koa');
+var cors = require('kcors');
+var body = require('koa-body');
 var route = require('koa-route');
 var http = require('http');
 
@@ -11,7 +13,8 @@ var port = process.env.PORT || 7676;
 var app = koa();
 
 // middleware
-app.use(require('koa-body')());
+app.use(cors());
+app.use(body());
 
 // routes
 app.use(route.get('/nodes', require('./routes/nodes_index.js')));
