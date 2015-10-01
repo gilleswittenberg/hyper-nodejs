@@ -1,13 +1,15 @@
 
 var runQuery = require('../lib/run_query.js');
 
-module.exports = function *() {
+module.exports = function *(id) {
 
   try {
 
-    yield query(this.request.body.id);
+    yield query(id);
 
+    this.type = 'json';
     this.status = 200;
+    this.body = '';
 
   } catch (err) {
     console.log(err);

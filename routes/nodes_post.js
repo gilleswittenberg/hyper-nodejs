@@ -6,7 +6,9 @@ module.exports = function *() {
 
     yield query(this.request.body.parentId, this.request.body.text);
 
+    this.type = 'json';
     this.status = 200;
+    this.body = '';
 
   } catch (err) {
     console.log(err);

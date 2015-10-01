@@ -12,6 +12,7 @@ describe('nodes post', function () {
         parentId: 1,
         text: 'string'
       })
+      .expect('Content-Type', /json/)
       .expect(200)
       .end();
   });

@@ -8,6 +8,7 @@ describe('nodes index', function () {
 
   it('200', function *() {
     var response = yield request.get('/nodes')
+      .expect('Content-Type', /json/)
       .expect(200)
       .end();
 

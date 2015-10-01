@@ -7,11 +7,9 @@ var should = require('should');
 describe('nodes delete', function () {
 
   it('200', function *() {
-    var response = yield request.delete('/nodes')
-      .send({
-        // @TODO: This is dangerous running against a live database
-        id: 999999999,
-      })
+    // @TODO: This is dangerous running against a live database
+    var response = yield request.delete('/nodes/999999999')
+      .expect('Content-Type', /json/)
       .expect(200)
       .end();
   });
